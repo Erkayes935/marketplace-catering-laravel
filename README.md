@@ -20,7 +20,8 @@ Pembelian: Kantor dapat memilih menu, menentukan jumlah porsi, dan memilih tangg
 
 Invoice: Setelah melakukan pemesanan, sistem akan menghasilkan invoice yang dapat diakses oleh merchant dan kantor.
 
-```Struktur Direktori
+Struktur Direktori
+```
 /app
     /Http
         /Controllers
