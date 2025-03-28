@@ -1,0 +1,17 @@
+namespace Database\Factories;
+
+use App\Models\{{ $modelName }};
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class {{ $modelName }}Factory extends Factory
+{
+    protected $model = {{ $modelName }}::class;
+
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'file_path' => 'files/'.$this->faker->uuid.'.jpg',  // Path file yang akan disimpan di MCRFS
+        ];
+    }
+}
