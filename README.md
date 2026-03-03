@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Marketplace Catering (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project web sederhana untuk manajemen:
+- Menu dan kategori
+- Customer
+- Pesanan (order)
+- Invoice
 
-## About Laravel
+Stack:
+- PHP `^8.2`
+- Laravel `^12`
+- PostgreSQL (recommended di project ini)
+- PHP extension `pdo_pgsql` dan `pgsql` aktif
+- Bootstrap 5
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Setup Cepat
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Clone project lalu masuk folder project.
+2. Install dependency backend:
+```bash
+composer install
+```
+3. (Opsional frontend) install dependency Vite:
+```bash
+npm install
+```
+4. Copy env:
+```bash
+cp .env.example .env
+```
+Untuk PowerShell:
+```powershell
+Copy-Item .env.example .env
+```
+5. Generate key:
+```bash
+php artisan key:generate
+```
+6. Atur koneksi database di `.env`:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nama_database
+DB_USERNAME=postgres
+DB_PASSWORD=*****
+```
+7. Migrate + seed:
+```bash
+php artisan migrate:fresh --seed
+```
+8. Jalankan app:
+```bash
+php artisan serve
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+App akan jalan di `http://localhost:8000`.
 
-## Learning Laravel
+## Akun Default
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Seeder membuat user default:
+- Email: `test@example.com`
+- Password: `password`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Alur Pakai Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Buka `Menu` untuk lihat daftar menu.
+2. Buka `Pesanan` lalu klik `Buat Pesanan`.
+3. Isi customer, tanggal antar, menu, quantity.
+4. Simpan, lalu cek `Detail` pesanan.
+5. Dari `Detail` pesanan, buat invoice.
+6. Buka `Invoice` untuk lihat daftar dan detail invoice.
 
-## Laravel Sponsors
+## Struktur Modul (Status Saat Ini)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `Menu`: basic CRUD jalan.
+- `Customer`: basic CRUD jalan.
+- `Order`: list, create, show jalan.
+- `Invoice`: list, create, show jalan.
+- `Merchant`: masih scaffold, belum complete.
+- `Category`: list + store ada, CRUD belum complete.
+- `OrderMenu`: masih scaffold/legacy, belum jadi flow utama.
 
-### Premium Partners
+## Catatan Teknis Penting
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Nama tabel pivot order-menu di migration adalah `order__menus` (double underscore), bukan `order_menus`.
+- Relasi model sudah diarahkan ke `order__menus`.
+- Kalau habis ubah relasi / route / view dan masih lihat error lama, jalankan:
+```bash
+php artisan optimize:clear
+```
 
-## Contributing
+## Seeder Yang Tersedia
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `CategorySeeder`
+- `CustomerSeeder`
+- `MenuSeeder`
+- `OrderSeeder`
+- `OrderMenuSeeder`
+- `InvoiceSeeder`
+- `MerchantSeeder`
 
-## Code of Conduct
+Semua dipanggil dari `DatabaseSeeder`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Troubleshooting
 
-## Security Vulnerabilities
+- Error `relation "order_menus" does not exist`:
+  - Pastikan migration terbaru sudah dijalankan (`migrate:fresh --seed`).
+  - Pastikan relasi model `Order` pakai tabel `order__menus`.
+- Halaman detail kosong:
+  - Pastikan method `show()` controller return view.
+  - Jalankan `php artisan optimize:clear`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Next Improvement (Opsional)
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Multi-menu dalam 1 pesanan (saat ini 1 order = 1 menu + qty).
+- Lengkapi CRUD Category, Merchant, dan OrderMenu.
+- Tambah validasi yang lebih strict dan flash message sukses/gagal.
