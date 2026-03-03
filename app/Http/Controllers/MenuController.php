@@ -26,7 +26,7 @@ class MenuController extends Controller
     {
         //
         $categories = Category::all();
-        return view('menus.create', ['categories' => Category::all()]);
+        return view('menus.create', compact('categories'));
     }
 
     /**
@@ -67,7 +67,8 @@ class MenuController extends Controller
     public function edit(Menu $menu)
     {
         //
-        return view('menus.edit', compact('menu'));
+        $categories = Category::all();
+        return view('menus.edit', compact('menu', 'categories'));
     }
 
     /**

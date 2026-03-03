@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Merchant;
 use Illuminate\Database\Seeder;
 
 class MerchantSeeder extends Seeder
@@ -12,6 +12,6 @@ class MerchantSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Merchant::factory()->count(8)->create();
     }
 }

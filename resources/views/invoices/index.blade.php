@@ -3,14 +3,15 @@
 
 @section('content')
     <h1>Daftar Invoice</h1>
+    <a href="{{ route('invoices.create') }}" class="btn btn-primary">Buat Invoice</a>
     <table class="table mt-3">
         <thead>
             <tr>
                 <th>#</th>
                 <th>Nomor Invoice</th>
                 <th>Customer</th>
+                <th>Tanggal Antar</th>
                 <th>Total Harga</th>
-                <th>Status Pembayaran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -18,10 +19,10 @@
             @foreach ($invoices as $invoice)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $invoice->invoice_number }}</td>
+                    <td>INV-{{ str_pad((string) $invoice->id, 5, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $invoice->order->customer->name }}</td>
-                    <td>Rp {{ number_format($invoice->total_price) }}</td>
-                    <td>{{ $invoice->payment_status }}</td>
+                    <td>{{ $invoice->order->delivery_date }}</td>
+                    <td>Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>
                     <td>
                         <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-info btn-sm">Lihat</a>
                     </td>

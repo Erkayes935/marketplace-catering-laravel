@@ -19,6 +19,13 @@ class Order extends Model
     }
     public function menus()
     {
-        return $this->belongsToMany(Menu::class, 'order_menus');
+        return $this->belongsToMany(Menu::class, 'order__menus')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
     }
 }
